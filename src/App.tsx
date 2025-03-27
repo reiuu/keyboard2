@@ -11,6 +11,11 @@ function App() {
     setGreetMsg(await invoke("get_midi_devices", { name }));
   }
 
+  async function test_lib() {
+    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+    setGreetMsg(await invoke("test_lib", { name }));
+  }
+
   return (
     <main>
       <h1>Welcome to Tauri + React</h1>
@@ -27,6 +32,17 @@ function App() {
         <button type="submit">Greet</button>
       </form>
       <p>{greetMsg}</p>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          test_lib();
+        }}
+      >
+        <button type="submit">Test Lib</button>
+      </form>
+      <p>{greetMsg}</p>
+
     </main>
   );
 }
