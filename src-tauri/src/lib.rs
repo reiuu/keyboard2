@@ -24,11 +24,14 @@ fn get_midi_devices() -> Vec<MidiDevice> {
                                                            // which could lead to undefined behaviour when dereferencing. 
                                                            // so we instead store this in a variable for stability.
 
-                let name = String::from_utf16_lossy(&device_name) // borrow device_name instead of moving it
-                    .trim_end_matches('\0')
-                    .trim()
-                    .to_string();
-                println!("Found device: {}", name);
+                let len = device_name
+                    .iter()
+                    .position(|&c| c == 0) // win32 api uses null terminated strings, so search arr for 0 to find end
+                    .unwrap_or(device_name.len());
+
+                let name = String::from_utf16_lossy(&device_name[..len]); // borrow device_name instead of moving it
+                
+                println!("Found device: {}", &name);
 
                 let device = MidiDevice {
                     id: d,
@@ -36,13 +39,7 @@ fn get_midi_devices() -> Vec<MidiDevice> {
                 };
 
                 devices.push(device);
-
-                
             }
-        }
-        println!("Device Name, Id");
-        for d2 in &devices {
-            println!("{}, {}", d2.d_name, d2.id);
         }
 
         return devices;     
