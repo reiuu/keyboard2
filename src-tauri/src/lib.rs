@@ -1,29 +1,52 @@
 use windows::Win32::Media::Audio::{midiOutGetNumDevs, midiOutGetDevCapsW, MIDIOUTCAPSW};
-use windows::Win32::Foundation::HANDLE;
-use windows::Win32::System::Com::{CoInitializeEx, COINIT_APARTMENTTHREADED, COINIT_MULTITHREADED};
+use windows::Win32::System::Com::{CoInitializeEx, COINIT_APARTMENTTHREADED};
 use serde::Serialize;
-
-/* #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-} */
 
 #[derive(Serialize)]
 struct MidiDevice {
     id: u32,
-    name: String,
+    d_name: String,
 }
 
- #[tauri::command]
+#[tauri::command]
 fn get_midi_devices() -> Vec<MidiDevice> {
     unsafe {
-        let x = midiOutGetNumDevs();
         // COM initialisation required for Windows API
-        CoInitializeEx(None, COINIT_APARTMENTTHREADED); // single-threaded apartment
+        // CoInitializeEx(None, COINIT_APARTMENTTHREADED).unwrap(); // single-threaded apartment
+
+        let mut devices: Vec<MidiDevice> = Vec::new();
+        let num_devices: u32 = midiOutGetNumDevs();
         
-        
+        for d in 0..num_devices {
+            let mut caps = MIDIOUTCAPSW::default(); // value here will be filled by below, like 'out' in c#
+            if midiOutGetDevCapsW(d as usize, &mut caps, size_of::<MIDIOUTCAPSW>() as u32) == 0u32 {
+                let device_name = caps.szPname; // MIDIOUTCAPSW is packed struct, meaning fields arent properly aligned in memory, 
+                                                           // which could lead to undefined behaviour when dereferencing. 
+                                                           // so we instead store this in a variable for stability.
+
+                let name = String::from_utf16_lossy(&device_name) // borrow device_name instead of moving it
+                    .trim_end_matches('\0')
+                    .trim()
+                    .to_string();
+                println!("Found device: {}", name);
+
+                let device = MidiDevice {
+                    id: d,
+                    d_name: name 
+                };
+
+                devices.push(device);
+
+                
+            }
+        }
+        println!("Device Name, Id");
+        for d2 in &devices {
+            println!("{}, {}", d2.d_name, d2.id);
+        }
+
+        return devices;     
     }
-    return Vec::new();
 } 
 
 
