@@ -18,7 +18,7 @@ function App() {
 
   return (
     <main>
-      <h1>Welcome to Tauri + React</h1>
+      <h1>keyboard^2</h1>
 
       <form
         onSubmit={(e) => {
@@ -32,7 +32,9 @@ function App() {
       <ul>
         {devices.map((device) => (
           <li key={device.id}>
-            #{device.id}: {device.d_name}
+            <pre style={{ margin: 0 }}>
+              {device.d_name.padEnd(20)}     ID: {device.id.toString().padStart(2, " ")}
+            </pre>
           </li>
         ))}
       </ul>
