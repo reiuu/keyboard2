@@ -14,9 +14,10 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
+bindgen = "0.71.1"
 
 [dependencies]
-winapi = { version = "0.3", features = ["winnt", "minwindef"] }
+winapi = { version = "0.3", features = ["winnt", "minwindef", "errhandlingapi"] }
 widestring = "0.5"
 uuid = { version = "1.0", features = ["v4"] }
 libloading = "0.8"

@@ -1,9 +1,11 @@
-pub mod virtual_midi;
-
-use virtual_midi::{VirtualMidi, TE_VM_FLAGS_INSTANTIATE_BOTH, TE_VM_FLAGS_PARSE_RX, VM_MIDI_PORT};
-use windows::Win32::Media::Audio::{midiOutGetDevCapsW, midiOutGetNumDevs, midiOutOpen, HMIDIOUT, MIDIOUTCAPSW};
+#![allow(non_upper_case_globals)]
+#![allow(non_camel_case_types)]
+#![allow(non_snake_case)]
+include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+use std::thread;
+use windows::Win32::Media::Audio::{midiOutGetDevCapsW, midiOutGetNumDevs, MIDIOUTCAPSW};
 use serde::Serialize;
-
+mod ffi_helpers;
 
 #[derive(Serialize)]
 struct MidiDevice {
@@ -11,51 +13,23 @@ struct MidiDevice {
     d_name: String,
 }
 
-#[tauri::command]
-fn test_lib() {
-    create_midi().expect("Error when creating MIDI port");
-}
-
 fn create_midi() -> Result<(), String> {
+    thread::spawn(|| {
+        unsafe {
+            let port_name = ffi_helpers::to_wide("keyboard2 MIDI");
+            let port = virtualMIDICreatePortEx2(
+                port_name.as_ptr(), 
+                None, 
+                0, 
+                TE_VM_DEFAULT_BUFFER_SIZE, 
+                TE_VM_FLAGS_PARSE_RX | TE_VM_FLAGS_INSTANTIATE_BOTH);
 
-    let vm = VirtualMidi::new()?;
-     
-    let port = unsafe {
-        vm.create_port_ex2(
-            "My Rust MIDI Port",
-            None,
-            0, // callback instance data
-            65535, // max sysex length
-            TE_VM_FLAGS_PARSE_RX | TE_VM_FLAGS_INSTANTIATE_BOTH,
-        ).expect("Test")
-    };
-    
-    // send data (extract into seperate function so we can send using front-end)
-    let midi_data = [0x90, 0x3C, 0x7F]; // note-on msg, C4
-    unsafe { let _ = vm.send_data(port, &midi_data); } // let _ to hold possible err
-    
-    // leave open
-    println!("Port is open, press Enter to close...");
-    let mut input = String::new();
-    std::io::stdin().read_line(&mut input).unwrap();
+            thread::park();
+        }
+    });
 
-    unsafe { let _ = vm.close_port(port); }
-    
-    println!("Port is closed");
     Ok(())
-}
-
-/* #[tauri::command]
-fn test_lib() {
-    unsafe {
-        let lib = Library::new("C:\\Users\\rynml\\Developer\\keyboard2\\src-tauri\\libs\\teVirtualMIDI64.dll").expect("failed to load DLL");
-        let create_port: Symbol<unsafe extern "C" fn(&str, Option<unsafe extern "C" fn(...)>, u32, u32, *mut c_void) -> *mut c_void,> 
-            = lib.get(b"virtualMIDI_CreatePortEx2").expect("failed to load function");
-        let port = create_port("test1", 0, 1024, std::ptr::null_mut());
-
-        println!("Created MIDI port: {:?}", port);
-    }
-} */
+} 
 
 #[tauri::command]
 fn get_midi_devices() -> Vec<MidiDevice> {
@@ -80,7 +54,7 @@ fn get_midi_devices() -> Vec<MidiDevice> {
 
                 let name = String::from_utf16_lossy(&device_name[..end_idx]); // borrow device_name instead of moving it
                 
-                println!("Found device: {}", &name);
+                println!("Found device: {} ID: {}", &name, &d);
 
                 let device = MidiDevice {
                     id: d,
@@ -93,13 +67,17 @@ fn get_midi_devices() -> Vec<MidiDevice> {
 
         return devices;     
     }
-} 
+}
 
 
 pub fn run() {
-    tauri::Builder::default() // see std::process::Command - common Rust pattern
+    tauri::Builder::default()
+        .setup(|_app| {
+            create_midi().expect("MIDI thread failed");
+            Ok(())
+        }) // see std::process::Command - common Rust pattern
         //.plugin(tauri_plugin_opener::init()) // file opener plugin, not required
-        .invoke_handler(tauri::generate_handler![get_midi_devices, test_lib]) // register commands
+        .invoke_handler(tauri::generate_handler![get_midi_devices]) // register commands
         .run(tauri::generate_context!()) // generate_context!() from tauri.conf.json
         .expect("error while running tauri application");
 }

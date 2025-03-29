@@ -1,7 +1,5 @@
-# Tauri + React + Typescript
+Requires the virtualMIDI SDK to be installed: https://www.tobias-erichsen.de/software/virtualmidi/virtualmidi-sdk.html
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Assumes default install path, can be changed in build.rs:
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+`letpath = "C:`
