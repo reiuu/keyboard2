@@ -1,4 +1,3 @@
-use std::ptr::null;
 use std::ffi::OsStr;
 use std::os::windows::ffi::OsStrExt;
 

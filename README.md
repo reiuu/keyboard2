@@ -2,4 +2,4 @@ Requires the virtualMIDI SDK to be installed: https://www.tobias-erichsen.de/sof
 
 Assumes default install path, can be changed in build.rs:
 
-`letpath = "C:`
+`let path = "C:/Program Files (x86)/Tobias Erichsen/teVirtualMIDISDK/C-Binding";`

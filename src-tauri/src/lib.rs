@@ -17,7 +17,7 @@ fn create_midi() -> Result<(), String> {
     thread::spawn(|| {
         unsafe {
             let port_name = ffi_helpers::to_wide("keyboard2 MIDI");
-            let port = virtualMIDICreatePortEx2(
+            let _port = virtualMIDICreatePortEx2(
                 port_name.as_ptr(), 
                 None, 
                 0, 
