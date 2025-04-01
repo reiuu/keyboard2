@@ -1,0 +1,118 @@
+use crate::Note;
+
+pub const A0: Note = Note(21);
+pub const A_SHARP0: Note = Note(22);
+pub const B0: Note = Note(23);
+
+pub const C1: Note = Note(24);
+pub const C_SHARP1: Note = Note(25);
+pub const D1: Note = Note(26);
+pub const D_SHARP1: Note = Note(27);
+pub const E1: Note = Note(28);
+pub const F1: Note = Note(29);
+pub const F_SHARP1: Note = Note(30);
+pub const G1: Note = Note(31);
+pub const G_SHARP1: Note = Note(32);
+pub const A1: Note = Note(33);
+pub const A_SHARP1: Note = Note(34);
+pub const B1: Note = Note(35);
+
+pub const C2: Note = Note(36);
+pub const C_SHARP2: Note = Note(37);
+pub const D2: Note = Note(38);
+pub const D_SHARP2: Note = Note(39);
+pub const E2: Note = Note(40);
+pub const F2: Note = Note(41);
+pub const F_SHARP2: Note = Note(42);
+pub const G2: Note = Note(43);
+pub const G_SHARP2: Note = Note(44);
+pub const A2: Note = Note(45);
+pub const A_SHARP2: Note = Note(46);
+pub const B2: Note = Note(47);
+
+pub const C3: Note = Note(48);
+pub const C_SHARP3: Note = Note(49);
+pub const D3: Note = Note(50);
+pub const D_SHARP3: Note = Note(51);
+pub const E3: Note = Note(52);
+pub const F3: Note = Note(53);
+pub const F_SHARP3: Note = Note(54);
+pub const G3: Note = Note(55);
+pub const G_SHARP3: Note = Note(56);
+pub const A3: Note = Note(57);
+pub const A_SHARP3: Note = Note(58);
+pub const B3: Note = Note(59);
+
+pub const C4: Note = Note(60);
+pub const C_SHARP4: Note = Note(61);
+pub const D4: Note = Note(62);
+pub const D_SHARP4: Note = Note(63);
+pub const E4: Note = Note(64);
+pub const F4: Note = Note(65);
+pub const F_SHARP4: Note = Note(66);
+pub const G4: Note = Note(67);
+pub const G_SHARP4: Note = Note(68);
+pub const A4: Note = Note(69);
+pub const A_SHARP4: Note = Note(70);
+pub const B4: Note = Note(71);
+
+pub const C5: Note = Note(72);
+pub const C_SHARP5: Note = Note(73);
+pub const D5: Note = Note(74);
+pub const D_SHARP5: Note = Note(75);
+pub const E5: Note = Note(76);
+pub const F5: Note = Note(77);
+pub const F_SHARP5: Note = Note(78);
+pub const G5: Note = Note(79);
+pub const G_SHARP5: Note = Note(80);
+pub const A5: Note = Note(81);
+pub const A_SHARP5: Note = Note(82);
+pub const B5: Note = Note(83);
+
+pub const C6: Note = Note(84);
+pub const C_SHARP6: Note = Note(85);
+pub const D6: Note = Note(86);
+pub const D_SHARP6: Note = Note(87);
+pub const E6: Note = Note(88);
+pub const F6: Note = Note(89);
+pub const F_SHARP6: Note = Note(90);
+pub const G6: Note = Note(91);
+pub const G_SHARP6: Note = Note(92);
+pub const A6: Note = Note(93);
+pub const A_SHARP6: Note = Note(94);
+pub const B6: Note = Note(95);
+
+pub const C7: Note = Note(96);
+pub const C_SHARP7: Note = Note(97);
+pub const D7: Note = Note(98);
+pub const D_SHARP7: Note = Note(99);
+pub const E7: Note = Note(100);
+pub const F7: Note = Note(101);
+pub const F_SHARP7: Note = Note(102);
+pub const G7: Note = Note(103);
+pub const G_SHARP7: Note = Note(104);
+pub const A7: Note = Note(105);
+pub const A_SHARP7: Note = Note(106);
+pub const B7: Note = Note(107);
+
+pub const C8: Note = Note(108);
+pub const C_SHARP8: Note = Note(109);
+pub const D8: Note = Note(110);
+pub const D_SHARP8: Note = Note(111);
+pub const E8: Note = Note(112);
+pub const F8: Note = Note(113);
+pub const F_SHARP8: Note = Note(114);
+pub const G8: Note = Note(115);
+pub const G_SHARP8: Note = Note(116);
+pub const A8: Note = Note(117);
+pub const A_SHARP8: Note = Note(118);
+pub const B8: Note = Note(119);
+
+pub const C9: Note = Note(120);
+pub const C_SHARP9: Note = Note(121);
+pub const D9: Note = Note(122);
+pub const D_SHARP9: Note = Note(123);
+pub const E9: Note = Note(124);
+pub const F9: Note = Note(125);
+pub const F_SHARP9: Note = Note(126);
+pub const G9: Note = Note(127);
